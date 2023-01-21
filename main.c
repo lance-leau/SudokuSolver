@@ -2,13 +2,17 @@
 #include "sudoku.h"
 
 // Global variables
-int grid[81] = {0,};
+char grid[81] = {0,};
 
-int main()
+int main(int argc, char *argv[25])
 {
-    setGrid(grid);
-    prettyPrint(grid);
+    if (argc != 2)
+    {
+        printf("missing argument: ./main <path1>\n");
+        return 0;
+    }
+    loadSudoku(grid, argv[1]);
     solve(grid);
-    prettyPrint(grid);
+    saveSudoku(grid, argv[1]);
     return 0;
 }
