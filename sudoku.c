@@ -146,7 +146,7 @@ int checkBox(char grid[81])
     return 1;
 }
 
-/*\brief checks that the rows, cols and boxes of the grid contains no duplicates
+/*\brief checks that the rows, cols and boxes of the grid contain no duplicates
  * @param grid char[81] -- the array representing a 9 by 9 grid of charegers
  * @return int -- 1 if board is valid, 0 if board is NOT vaild
  */
@@ -237,6 +237,10 @@ void prettyPrint(char grid[81])
     printf("╚═══╧═══╧═══╩═══╧═══╧═══╩═══╧═══╧═══╝\n");
 }
 
+/*\brief (uglyPrint anex) prints the grid conforming to the documentation format
+ * @param grid char[81] -- the array representing a 9 by 9 grid of charegers
+ * @return void
+ */
 void __uglyPrint(char grid[81], size_t i)
 {
     if (81 < i) printf("\n");
@@ -258,13 +262,20 @@ void __uglyPrint(char grid[81], size_t i)
     
 }
 
-
+/*\brief prints the grid conforming to the documentation format
+ * @param grid char[81] -- the array representing a 9 by 9 grid of charegers
+ * @return void
+ */
 void uglyPrint(char grid[81])
 {
     __uglyPrint(grid, 1);
 }
 
-int isBoardSolved(char grid[])
+/*\brief checks if solved (grid is solved if no empty cell and grid is legal)
+ * @param grid char[81] -- the array representing a 9 by 9 grid of charegers
+ * @return int -- 1 is solved, 0 is NOT solved
+ */
+int isSudokuSolved(char grid[])
 {
     for (size_t i = 0; i < 81; i++) if (grid[i] == 0) return 0;
     return isBoardLegal(grid);
@@ -300,18 +311,22 @@ int solve(char grid[81])
 {
     __solve(grid, 0);
 
-    if (isBoardSolved(grid))
+    if (isSudokuSolved(grid))
     {
-        // printf("Grid is solvable\n");
-        return 1;
+        return -1;
     }
     else
     {
-        // printf("Grid is not solvable\n");
         return 0;
     }
 }
 
+
+/*\brief loads a sudoku file from external file
+ * @param grid char[81] -- the empty array representing a 9 by 9 sudoku grid
+ * @param grid char[] -- a string representing the path to the external
+ * @return int -- returns 1 if board loaded successfully
+ */
 int loadSudoku(char grid[81], char path[])
 {
     FILE* ptr;
@@ -319,6 +334,9 @@ int loadSudoku(char grid[81], char path[])
  
     // Open the file as a reader
     ptr = fopen(path, "r");
+
+    // if file cannot be opened exit function
+    if (ptr == NULL) return -1;
 
     size_t gridIndex = 0;
     while (ch != EOF && gridIndex < 81)
@@ -340,6 +358,11 @@ int loadSudoku(char grid[81], char path[])
     return 0;
 }
 
+/*\brief merges 2 strings to the first string (make sure s1 is long enough)
+ * @param grid s1[] -- the first string the merged to
+ * @param grid char[] -- the second string merged from
+ * @return void
+ */
 void mergeStrings(char s1[], char s2[])
 {
     size_t i = 0;
@@ -354,15 +377,28 @@ void mergeStrings(char s1[], char s2[])
 }
 
 
+/*\brief saves a sudoku file to an external file with .result format
+ * @param grid char[81] -- the array representing a 9 by 9 sudoku grid
+ * @param grid char[] -- a string representing the path to the input file
+ * @return int -- returns 1 if board saved successfully
+ */
 int saveSudoku(char grid[81], char path[])
 {
     FILE *fptr;
 
-    char newpath[50] = "";
+    // generate new file name
     char fileExtention[] = ".result";
+    char newpath[50] = "";
     mergeStrings(newpath, path);
     mergeStrings(newpath, fileExtention);
+
+    // create the file if needed and open it as writer
     fptr = fopen(newpath,"w");
+
+    // if file cannot be created/opened exit function
+    if (fptr == NULL) return -1;
+
+    // main loop for parser
     for (size_t i = 1; i <= 81; i++)
     {
         fprintf(fptr, "%i", grid[i-1]);
@@ -374,6 +410,8 @@ int saveSudoku(char grid[81], char path[])
         }
         else if (i%3 == 0) fprintf(fptr, " ");
     }
+
+    //close the file
     fclose(fptr);
 
     return 0;
