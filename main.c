@@ -12,7 +12,7 @@ int main(int argc, char *argv[25])
         printf("missing argument: ./main <path>\n");
         return -1;
     }
-    
+
     // load the sudoku grid
     if (loadSudoku(grid, argv[1]) != 0)
     {
@@ -20,17 +20,23 @@ int main(int argc, char *argv[25])
         return -1;
     }
 
+    prettyPrint(grid);
+
     // solve the sudoku grid
     if (!solve(grid))
     {
-        printf("solve(): '%s' is not solvable, please enter valid grid\n", argv[1]);
+        printf("solve(): '%s' is not solvable, please enter valid grid\n"
+                                                                     , argv[1]);
         return -1;
     }
+
+    prettyPrint(grid);
 
     // save the sudoku grid
     if (saveSudoku(grid, argv[1]) != 0)
     {
-        printf("saveSudoku(): '%s.result' file can not be saved to memory\n", argv[1]);
+        printf("saveSudoku(): '%s.result' file can not be saved to memory\n"
+                                                                     , argv[1]);
         return -1;
     }
     // exit the programme with a success exit code
