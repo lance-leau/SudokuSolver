@@ -1,5 +1,5 @@
 To run the code:
-Oppen a terminal and nevigate to ```./SudokuSolver```
+Open a terminal and nevigate to ```./SudokuSolver```
 - To build the .exe, execute ```make```  in the terminal.
 - To run the code: ```./main ./sudokuBoards/grid_0<0/1/2>```
     A correstponding ```./sudokuBoards/grid_0<0/1/2>.result``` will appear in the sudokuBoards directory
@@ -15,15 +15,16 @@ The grid file format is as follows:
 
 here is an exemple of a valid input grid and a valid result grid:
 ```
-... ..4 58.
-... 721 ..3
-4.3 ... ...
+INPUT:              OUTPUT:
+... ..4 58.         127 634 589
+... 721 ..3         589 721 643
+4.3 ... ...         463 985 127
 
-21. .67 ..4
-.7. ... 2..
-63. .49 ..1
+21. .67 ..4         218 567 394
+.7. ... 2..         974 813 265
+63. .49 ..1         635 249 871
 
-3.6 ... ...
-... 158 ..6
-... ..6 95.
+3.6 ... ...         356 492 718
+... 158 ..6         792 158 436
+... ..6 95.         841 376 952
 ```
